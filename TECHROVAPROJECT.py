@@ -6,7 +6,7 @@ print("Welcome To Hangman!\n----------------------------------------------------
 user_help= int(input("Enter 1 for rules\nEnter anything else to continue\nEnter Here:"))
 
 if user_help == 1:
-  print("\n\nRules:\n-----------------------------------------------------------\n\tYou have to guess letters belonging to a random and secretive word\n\tOne wrong guess and you hangman gets a part of his body added.\n\tA full body, then he falls and you lose!\n\nReady?\nLets PLay HANGMAN!")
+  print("\n\nRules:\n-----------------------------------------------------------\n\tHangman is a guessing game for two or more players. \n\tOne player thinks of a word, phrase or sentence and the other(s) tries to guess it by suggesting letters within a certain number of guesses.\n\tEvery time the player guesses incorrectly another body part adds to the hangman.\n\tThere are 6 body parts; the head, the body, the right arm, the left arm, the right leg, and the left leg. \n\tWhen the guesser completes the body, the hangman falls, and the guesser loses, while the one who chose the word wins.\n\tHowever, if the guesser guesses the word before the body is complete, the guesser wins.\n\tBut, since we have coding and machines in this world, you can play by yourself!\n\nReady?\nLets PLay HANGMAN!")
 else:
   print("Let's Play HANGMAN!")
 
@@ -14,7 +14,7 @@ else:
 
 
 #PRINTING STICKMAN: DONE
-def StickmanPrinting(wrong):
+def stickman_printing(wrong):
    if(wrong == 0):
     print("\n+---+")
     print("    |")
@@ -60,96 +60,55 @@ def StickmanPrinting(wrong):
 
 
 #INTERNAL MECHANICS
-WrongCount=0
-WordDict = ["sunflower", "cheif", "citizen", "motivation", "trend", "ballet", "weapon", "coast", "throne","screen", "parameter"]
-
-RandomWord = random.choice(WordDict)
-for l in RandomWord:
-  print("_", end=" ")
-  
-  
-RandomList = list(RandomWord)
-print(RandomList)
-guessedletters=[]
-
-
-    
-
-def duplicate_characters(string):
-    # Create an empty dictionary
-     
-     chars = {} 
- 
-     for char in string:
-        if char not in chars:
-            chars[char] = 1
-        else:
-            chars[char] += 1
- 
-     duplicates = []
- 
-     for char, count in chars.items():
-        if count > 1:
-            duplicates.append(char)
-
-
+wrong_count=0
 word="_"
-for l in range(1,len(RandomWord)):
-          word= word+"_"
+WORD_DICTIONARY = ["sunflower", "cheif", "citizen", "motivation", "trend", "ballet", "weapon", "coast", "throne","screen", "parameter"]
+guessed_letters=[]
+random_word = random.choice(WORD_DICTIONARY)
+for l in random_word:
+    print("_", end=" ")
+   
+random_word_list = list(random_word)
+print(random_word_list)
+
+for l in range(1,len(random_word)):
+    word= word+"_"
+    
 word=list(word)
-while WrongCount < 6:
-    RandomList_sorted = [*set(RandomList)]
-    guessedletters_sorted=guessedletters
 
-    RandomList_sorted.sort()
-
-    guessedletters_sorted.sort()
-    
-
-    LetterInput = input("\nEnter a letter:")
-    
+while wrong_count < 6:
+    random_word_list_sorted = [*set(random_word_list)]
+    guessed_letters_sorted=guessed_letters
+    random_word_list_sorted.sort()
+    guessed_letters_sorted.sort()    
+    letter_input = input("\nEnter a letter:")
       
-    if RandomList_sorted == guessedletters_sorted:
+    if random_word_list_sorted == guessed_letters_sorted:
         print("YOU WON")
         break
-   
-    elif LetterInput not in RandomWord or LetterInput in guessedletters:
-        
-        print(guessedletters)
-        WrongCount+=1
-        StickmanPrinting(WrongCount)
-        
-        
+    elif letter_input not in random_word or letter_input in guessed_letters:    
+        wrong_count+=1
+        stickman_printing(wrong_count)
         print(word)
-        print(WrongCount)
-        print(guessedletters)
-
-    elif LetterInput in RandomList and LetterInput not in guessedletters:
+    elif letter_input in random_word_list and letter_input not in guessed_letters:
         print('Good Job!')
-        StickmanPrinting(WrongCount)
-        guessedletters.append(LetterInput)
-        print(guessedletters) 
-        indexes=[m.start() for m in re.finditer(LetterInput, RandomWord)]
+        stickman_printing(wrong_count)
+        guessed_letters.append(letter_input)
+        print(guessed_letters) 
+        indexes=[m.start() for m in re.finditer(letter_input, random_word)]
         print(indexes)
         if len(indexes) == 1:
-          indexnum=RandomList.index(LetterInput)
+          indexnum=random_word_list.index(letter_input)
           print(word[indexnum])
-          word[indexnum]=RandomWord[indexnum]
+          word[indexnum]=random_word[indexnum]
           print(word)
         else:
           for x in indexes:
-        
-            word[x] = RandomWord[x]  
-
+            word[x] = random_word[x]
           print(word)
 
-
-        
-        
-            
-        
-if WrongCount==6:
-    print("THE END")
-    StickmanPrinting(WrongCount)
-    print(RandomWord)
+if wrong_count==6:
+    print("GAME OVER")
+    stickman_printing(wrong_count)
+    print(random_word)
 
